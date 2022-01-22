@@ -4,6 +4,9 @@ window.onload = () => {
         'expression': [],
         'text_field': document.querySelector('#textfield'),
         expressionToString() {
+            if(this.expression.length == 1 & isNaN(this.expression[0])){
+                return "undefined";
+            }
             return this.expression.join(' ');
         },
         'key_pad': {
@@ -74,18 +77,63 @@ window.onload = () => {
             calculator.text_field.value = calculator.expressionToString();
         })
     }
+
     //connect clear button
     calculator.key_pad.clear_button.addEventListener('click', () => {
         calculator.expression = [];
         calculator.text_field.value = '';
     });
+
     //connect back button
     calculator.key_pad.back_button.addEventListener('click', () => {
-        calculator.expression.pop();
+        last_token = calculator.expression.pop();
+        if(!isNaN(parseInt(last_token))){
+            last_token = last_token.slice(0, -1);
+            calculator.expression.push(last_token);
+        }
         console.log(calculator.expression);
         calculator.text_field.value = calculator.expressionToString();
-    })
+    });
+
+    //connect equals button
+    calculator.key_pad.equals_button.addEventListener('click', () => {
+        calculator.expression = evaluate_expression(calculator.expression);
+        calculator.text_field.value = calculator.expressionToString();
+        console.log(calculator.expression);
+    });
 };
+
+function evaluate_expression(expression){
+    //functions to check operator 
+    const is_times_over = (element) => '*/'.includes(element);
+    const is_plus_minus = (element) => '+-'.includes(element);
+
+    //operate on sb-expressions until they are reduced to one number
+    while(expression.length > 1){
+        console.log(expression);
+        //to satisfy PEMDAS, operate on multiplication and division first
+        if(expression.find(element => '*/'.includes(element))){
+            let operator_index = expression.findIndex(is_times_over);
+            let operator = expression.find(is_times_over);
+            let item_1 = expression[operator_index-1];
+            let item_2 = expression[operator_index+1];
+
+            console.log(operator, item_1, item_2);
+            expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+        }
+        //then operate on addition and subtraction
+        else if(expression.find(element => '+-'.includes(element))){
+            let operator_index = expression.findIndex(is_plus_minus);
+            let operator = expression.find(is_plus_minus);
+            let item_1 = expression[operator_index-1];
+            let item_2 = expression[operator_index+1];
+
+            console.log(operator, item_1, item_2);
+            expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+        }
+    }
+    return expression;
+}
 
 //basic calculation functions
 function add(a, b){
@@ -105,6 +153,8 @@ function divide(a, b){
 }
 
 function operate(operator, a, b){
+    a = parseInt(a);
+    b = parseInt(b);
     if(operator == '+'){
         return add(a, b);
     }
