@@ -109,30 +109,35 @@ function evaluate_expression(expression){
     const is_plus_minus = (element) => '+-'.includes(element);
 
     //operate on sb-expressions until they are reduced to one number
-    while(expression.length > 1){
-        console.log(expression);
-        //to satisfy PEMDAS, operate on multiplication and division first
-        if(expression.find(element => '*/'.includes(element))){
-            let operator_index = expression.findIndex(is_times_over);
-            let operator = expression.find(is_times_over);
-            let item_1 = expression[operator_index-1];
-            let item_2 = expression[operator_index+1];
+    if(expression.length>=3){
+        while(canEvaluate(expression)){
+            console.log('loop' + expression);
+            //to satisfy PEMDAS, operate on multiplication and division first
+            if(expression.find(element => '*/'.includes(element))){
+                let operator_index = expression.findIndex(is_times_over);
+                let operator = expression.find(is_times_over);
+                let item_1 = expression[operator_index-1];
+                let item_2 = expression[operator_index+1];
 
-            console.log(operator, item_1, item_2);
-            expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
-        }
-        //then operate on addition and subtraction
-        else if(expression.find(element => '+-'.includes(element))){
-            let operator_index = expression.findIndex(is_plus_minus);
-            let operator = expression.find(is_plus_minus);
-            let item_1 = expression[operator_index-1];
-            let item_2 = expression[operator_index+1];
+                console.log(operator, item_1, item_2);
+                expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+            }
+            //then operate on addition and subtraction
+            else if(expression.find(element => '+-'.includes(element))){
+                let operator_index = expression.findIndex(is_plus_minus);
+                let operator = expression.find(is_plus_minus);
+                let item_1 = expression[operator_index-1];
+                let item_2 = expression[operator_index+1];
 
-            console.log(operator, item_1, item_2);
-            expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+                console.log(operator, item_1, item_2);
+                expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+            }
         }
+        return expression;
     }
-    return expression;
+    else{
+        return [undefined];
+    }
 }
 
 //basic calculation functions
@@ -166,5 +171,26 @@ function operate(operator, a, b){
     }
     if(operator == '/'){
         return divide(a, b);
+    }
+}
+
+function canEvaluate(expression){
+    console.log('check if can evaluate');
+    if(expression.length >=3){
+        for(let n = 0; n+=2; n<expression.length){
+            if(isNaN(expression[n])){
+                console.log(false);
+                return false;
+            }
+        }
+        for(let n = 1; n+=2; n<expression.length){
+            if(!'+-/*'.includes(expression[n])){
+                return false;
+            }
+        }
+        return true;
+    }
+    else{
+        return false;
     }
 }
