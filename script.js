@@ -109,9 +109,10 @@ function evaluate_expression(expression){
     const is_plus_minus = (element) => '+-'.includes(element);
 
     //operate on sb-expressions until they are reduced to one number
-    if(expression.length>=3){
+    console.log( 'pre-check log', expression, canEvaluate(expression))
+    if(canEvaluate(expression)){
         while(canEvaluate(expression)){
-            console.log('loop' + expression);
+            console.log('looping ' + expression);
             //to satisfy PEMDAS, operate on multiplication and division first
             if(expression.find(element => '*/'.includes(element))){
                 let operator_index = expression.findIndex(is_times_over);
@@ -136,6 +137,7 @@ function evaluate_expression(expression){
         return expression;
     }
     else{
+        console.log('func dont think it can eval');
         return [undefined];
     }
 }
@@ -184,15 +186,21 @@ function canEvaluate(expression){
             return index % 2 == 1;
         });
 
+        console.log('operators', should_be_operators);
+        console.log('numbers', should_be_numeric);
+
         correctly_numeric = should_be_numeric.reduce((previousValue, currentValue) => {
             return (!isNaN(previousValue)) & (!isNaN(currentValue));
         });
         correctly_operators = should_be_operators.reduce((previousValue, currentValue) => {
-            return '+-/*.'.includes(previousValue) & '+-/*'.includes(currentValue);
-        }, '+');
+            console.log(currentValue, previousValue);
+            return previousValue & '+-/*'.includes(currentValue);
+        }, true);
+        console.log('num', correctly_numeric, 'op: ', correctly_operators);
         return correctly_numeric & correctly_operators;
     }
     else{
+        console.log('CANNOT EVALUATE');
         return false;
     }
 }
