@@ -29,7 +29,7 @@ window.onload = () => {
                 'nine_button': document.querySelector('#nine'),
                 'zero_button': document.querySelector('#zero')
             },
-
+            'dot_button': document.querySelector('#dot'),
             'clear_button': document.querySelector('#clear'),
             'back_button': document.querySelector('#back'),
             'equals_button': document.querySelector('#equals')
@@ -77,6 +77,11 @@ window.onload = () => {
             calculator.text_field.value = calculator.expressionToString();
         })
     }
+
+    //connect dot button
+    calculator.key_pad.dot_button.addEventListener('click', () => {
+        console.log('dot');
+    });
 
     //connect clear button
     calculator.key_pad.clear_button.addEventListener('click', () => {
