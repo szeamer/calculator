@@ -177,18 +177,20 @@ function operate(operator, a, b){
 function canEvaluate(expression){
     console.log('check if can evaluate');
     if(expression.length >=3){
-        for(let n = 0; n+=2; n<expression.length){
-            if(isNaN(expression[n])){
-                console.log(false);
-                return false;
-            }
-        }
-        for(let n = 1; n+=2; n<expression.length){
-            if(!'+-/*'.includes(expression[n])){
-                return false;
-            }
-        }
-        return true;
+        should_be_numeric = expression.filter((element, index) => {
+            return index % 2 == 0;
+        });
+        should_be_operators = expression.filter((element, index) => {
+            return index % 2 == 1;
+        });
+
+        correctly_numeric = should_be_numeric.reduce((previousValue, currentValue) => {
+            return (!isNaN(previousValue)) & (!isNaN(currentValue));
+        });
+        correctly_operators = should_be_operators.reduce((previousValue, currentValue) => {
+            return '+-/*.'.includes(previousValue) & '+-/*'.includes(currentValue);
+        }, '+');
+        return correctly_numeric & correctly_operators;
     }
     else{
         return false;
