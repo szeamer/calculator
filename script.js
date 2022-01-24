@@ -77,7 +77,8 @@ window.onload = () => {
         //if it's a number, put back all but the last digit
         if(isNumeric(last_token)){
             console.log('deleted a number');
-            last_token = last_token.slice(0, -1);
+            console.log(last_token);
+            last_token = String(last_token).slice(0, -1);
             calculator.expression.push(last_token);
         }
         console.log(calculator.expression);
@@ -97,7 +98,7 @@ window.onload = () => {
         //if the last thing pushed to expression is a number and our input is too, concatenate them and push that
         if((last_token != undefined) & (isNumeric(last_token)) & (isNumeric(value))){
             console.log(last_token, value);
-            last_token = last_token + value;
+            last_token = String(last_token) + value;
             calculator.expression.push(last_token);
         }
         //if the last thing pushed is not a number but is defined, put it back in and push our input
