@@ -1,7 +1,108 @@
 #button_container{
-    width: 80vh;
+    width: 64vh;
     height: 80vh;
     display: grid;
     grid-template-rows: 20% 20% 20% 20% 20%;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 13.5% 13.5% 13.5% 13.5% 13.5% 13.5% 25%;
+}
+
+button{
+    border-radius: 8vh;
+    border: none;
+    margin: .5vh;
+}
+
+#one{
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+#two{
+    grid-column: 3 / span 2;
+    grid-row: 2;
+}
+
+#three{
+    grid-column: 5 / span 2;
+    grid-row: 2;
+}
+
+#four{
+    grid-column: 1 / span 2;
+    grid-row: 3;
+}
+
+#five{
+    grid-column: 3 / span 2;
+    grid-row: 3;
+}
+
+#six{
+    grid-column: 5 / span 2;
+    grid-row: 3;
+}
+
+#seven{
+    grid-column: 1 / span 2;
+    grid-row: 4;
+}
+
+#eight{
+    grid-column: 3 / span 2;
+    grid-row: 4;
+}
+
+#nine{
+    grid-column: 5 / span 2;
+    grid-row: 4;
+}
+
+#zero{
+    grid-column: 3  / span 2;
+    grid-row: 5;
+}
+
+#power{
+    grid-column: 5 / span 2;
+    grid-row: 1;
+}
+
+#plus{
+    grid-column: 7 / span 2;
+    grid-row: 1;
+}
+
+#minus{
+    grid-column: 7 / span 2;
+    grid-row: 2;
+}
+
+#times{
+    grid-column: 7 / span 2;
+    grid-row: 3;
+}
+
+#over{
+    grid-column: 7 / span 2;
+    grid-row: 4;
+}
+
+#equals{
+    grid-column: 5 / span 4;
+    grid-row: 5;
+}
+
+#dot{
+    grid-column: 1 / span 2;
+    grid-row: 5;
+}
+
+#clear{
+    grid-column: 1 / span 2;
+    grid-row: 1;
+}
+
+#back{
+    grid-column: 3 / span 2;
+    grid-row: 1;
 }

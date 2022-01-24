@@ -14,7 +14,8 @@ window.onload = () => {
                 'plus_button': document.querySelector('#plus'),
                 'minus_button': document.querySelector('#minus'),
                 'times_button': document.querySelector('#times'),
-                'divide_button': document.querySelector('#over')
+                'divide_button': document.querySelector('#over'),
+                'power_button': document.querySelector('#power')
             },
             
             'digits': {
@@ -118,15 +119,26 @@ window.onload = () => {
 
 function evaluate_expression(expression){
     //functions to check operator 
+    const is_exponent = (element) => '^' == element;
     const is_times_over = (element) => '*/'.includes(element);
     const is_plus_minus = (element) => '+-'.includes(element);
 
     //operate on sb-expressions until they are reduced to one number
-    console.log( 'pre-check log', expression, canEvaluate(expression))
+    console.log( 'evaluate_expression(expression) -> expression & canEvaluate', expression, canEvaluate(expression))
     if(canEvaluate(expression)){
         while(canEvaluate(expression)){
             console.log('looping ' + expression);
-            //to satisfy PEMDAS, operate on multiplication and division first
+            //to satisfy PEMDAS, exponentiate first
+            if(expression.find(element => '^' == element)){
+                let operator_index = expression.findIndex(is_exponent);
+                let operator = expression.find(is_exponent);
+                let item_1 = expression[operator_index-1];
+                let item_2 = expression[operator_index+1];
+
+                console.log(operator, item_1, item_2);
+                expression.splice(operator_index-1, 3, operate(operator, item_1, item_2));
+            }
+            //operate on multiplication and division second
             if(expression.find(element => '*/'.includes(element))){
                 let operator_index = expression.findIndex(is_times_over);
                 let operator = expression.find(is_times_over);
@@ -172,6 +184,10 @@ function divide(a, b){
     return a / b;
 }
 
+function power(a, b){
+    return a ** b;
+}
+
 function operate(operator, a, b){
     a = parseFloat(a);
     b = parseFloat(b);
@@ -186,6 +202,9 @@ function operate(operator, a, b){
     }
     if(operator == '/'){
         return divide(a, b);
+    }
+    if(operator == '^'){
+        return power(a, b);
     }
 }
 
@@ -207,7 +226,7 @@ function canEvaluate(expression){
         });
         correctly_operators = should_be_operators.reduce((previousValue, currentValue) => {
             console.log(currentValue, previousValue);
-            return previousValue & '+-/*'.includes(currentValue);
+            return previousValue & '^+-/*'.includes(currentValue);
         }, true);
         console.log('num', correctly_numeric, 'op: ', correctly_operators);
         return correctly_numeric & correctly_operators;
