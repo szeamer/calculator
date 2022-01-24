@@ -54,33 +54,13 @@ window.onload = () => {
         let button = calculator.key_pad.digits[digit];
         let value = button.textContent;
         button.addEventListener('click', () => {
-            let last_token = calculator.expression.pop();
-            console.log(parseInt(last_token), last_token);
-            //if the last thing pushed to expression is a number and our input is too, concatenate them and push that
-            if((last_token != undefined) & (!isNaN(parseInt(last_token))) & (!isNaN(parseInt(value)))){
-                console.log(last_token, value);
-                last_token = last_token + value;
-
-                calculator.expression.push(last_token);
-            }
-            //if the last thing pushed is not a number but is defined, put it back in and push our input
-            else if(last_token != undefined){
-                calculator.expression.push(last_token);
-                calculator.expression.push(value);
-            }
-            //if there's nothing in the expression yet, just push our input
-            else{
-                calculator.expression.push(value);
-            }
-
-            console.log(calculator.expression);
-            calculator.text_field.value = calculator.expressionToString();
+            pushNumber(value);
         })
     }
 
     //connect dot button
     calculator.key_pad.dot_button.addEventListener('click', () => {
-        console.log('dot');
+        pushNumber('.');
     });
 
     //connect clear button
@@ -91,8 +71,12 @@ window.onload = () => {
 
     //connect back button
     calculator.key_pad.back_button.addEventListener('click', () => {
+        //pop the last thing in the expression
         last_token = calculator.expression.pop();
-        if(!isNaN(parseInt(last_token))){
+
+        //if it's a number, put back all but the last digit
+        if(isNumeric(last_token)){
+            console.log('deleted a number');
             last_token = last_token.slice(0, -1);
             calculator.expression.push(last_token);
         }
@@ -106,6 +90,29 @@ window.onload = () => {
         calculator.text_field.value = calculator.expressionToString();
         console.log(calculator.expression);
     });
+
+    function pushNumber(value){
+        let last_token = calculator.expression.pop();
+        console.log(parseFloat(last_token), last_token);
+        //if the last thing pushed to expression is a number and our input is too, concatenate them and push that
+        if((last_token != undefined) & (isNumeric(last_token)) & (isNumeric(value))){
+            console.log(last_token, value);
+            last_token = last_token + value;
+            calculator.expression.push(last_token);
+        }
+        //if the last thing pushed is not a number but is defined, put it back in and push our input
+        else if(last_token != undefined){
+            calculator.expression.push(last_token);
+            calculator.expression.push(value);
+        }
+        //if there's nothing in the expression yet, just push our input
+        else{
+            calculator.expression.push(value);
+        }
+    
+        console.log(calculator.expression);
+        calculator.text_field.value = calculator.expressionToString();
+    }
 };
 
 function evaluate_expression(expression){
@@ -165,8 +172,8 @@ function divide(a, b){
 }
 
 function operate(operator, a, b){
-    a = parseInt(a);
-    b = parseInt(b);
+    a = parseFloat(a);
+    b = parseFloat(b);
     if(operator == '+'){
         return add(a, b);
     }
@@ -195,7 +202,7 @@ function canEvaluate(expression){
         console.log('numbers', should_be_numeric);
 
         correctly_numeric = should_be_numeric.reduce((previousValue, currentValue) => {
-            return (!isNaN(previousValue)) & (!isNaN(currentValue));
+            return (isNumeric(previousValue)) & (isNumeric(currentValue));
         });
         correctly_operators = should_be_operators.reduce((previousValue, currentValue) => {
             console.log(currentValue, previousValue);
@@ -208,29 +215,6 @@ function canEvaluate(expression){
         console.log('CANNOT EVALUATE');
         return false;
     }
-}
-
-function pushNumber(value, button){
-    let last_token = calculator.expression.pop();
-    console.log(parseInt(last_token), last_token);
-    //if the last thing pushed to expression is a number and our input is too, concatenate them and push that
-    if((last_token != undefined) & (!isNaN(parseInt(last_token))) & (!isNaN(parseInt(value)))){
-        console.log(last_token, value);
-        last_token = last_token + value;
-        calculator.expression.push(last_token);
-    }
-    //if the last thing pushed is not a number but is defined, put it back in and push our input
-    else if(last_token != undefined){
-        calculator.expression.push(last_token);
-        calculator.expression.push(value);
-    }
-    //if there's nothing in the expression yet, just push our input
-    else{
-        calculator.expression.push(value);
-    }
-
-    console.log(calculator.expression);
-    calculator.text_field.value = calculator.expressionToString();
 }
 
 function isNumeric(char){
