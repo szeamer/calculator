@@ -209,3 +209,33 @@ function canEvaluate(expression){
         return false;
     }
 }
+
+function pushNumber(value, button){
+    let last_token = calculator.expression.pop();
+    console.log(parseInt(last_token), last_token);
+    //if the last thing pushed to expression is a number and our input is too, concatenate them and push that
+    if((last_token != undefined) & (!isNaN(parseInt(last_token))) & (!isNaN(parseInt(value)))){
+        console.log(last_token, value);
+        last_token = last_token + value;
+        calculator.expression.push(last_token);
+    }
+    //if the last thing pushed is not a number but is defined, put it back in and push our input
+    else if(last_token != undefined){
+        calculator.expression.push(last_token);
+        calculator.expression.push(value);
+    }
+    //if there's nothing in the expression yet, just push our input
+    else{
+        calculator.expression.push(value);
+    }
+
+    console.log(calculator.expression);
+    calculator.text_field.value = calculator.expressionToString();
+}
+
+function isNumeric(char){
+    if(!isNaN(char) | char=='.'){
+        return true;
+    }
+    return false;
+}
