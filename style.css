@@ -1,108 +1,216 @@
-#button_container{
-    width: 64vh;
+:root{
+    --dark: rgb(2, 6, 26);
+
+    --light: rgb(189, 192, 196);
+    --light-hover: rgb(229, 230, 231);
+    --light-active: rgb(145, 150, 158);
+
+    --bright: rgb(255, 255, 255);
+    --bright-hover: rgb(255, 255, 255);
+    --birght-active: rgb(167, 151, 151);
+
+    --accent: tomato;
+    --accent-hover: rgb(255, 119, 95);
+    --accent-active: rgb(231, 66, 37);
+
+}
+
+html{
+    height: 100%;
+    width: 100%;
+
+    font-family:'Libre Franklin', sans-serif;
+    font-size: larger;
+
+    background: linear-gradient(155deg, rgba(160,177,187,1) 0%, rgba(189,192,196,1) 100%);
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+#calculator_container{
+    width: 60vh;
     height: 80vh;
+    display: flex;
+    flex-direction: column;
+
+    margin: auto;
+    padding: 5vh;
+    border-radius: 5vh;
+
+    background-color: var(--dark);
+    filter: drop-shadow(10px 10px 0.75rem var(--accent));
+}
+
+#button_container{
+    flex-grow: 2;
     display: grid;
     grid-template-rows: 20% 20% 20% 20% 20%;
-    grid-template-columns: 13.5% 13.5% 13.5% 13.5% 13.5% 13.5% 25%;
+    grid-template-columns: 25% 25% 25% 25%;
 }
 
 button{
-    border-radius: 8vh;
     border: none;
-    margin: .5vh;
+    border-radius: 5em;
+    margin: .25em;
+    font-family:'Libre Franklin', sans-serif;
+    font-size: xx-large;
+    font-weight: bold;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+input{
+    flex-grow: 1;
+    width: 95%;
+    box-sizing: border-box;
+    border-radius: .5em;
+    border: none;
+    margin: .5em;
+
+    background-color: transparent;
+    color: var(--light);
+    font-family:'Libre Franklin', sans-serif;
+    font-size: xx-large;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.operator{
+    background-color: var(--accent);
+    color: var(--dark);
+    
+}
+
+.operator:hover{
+    background-color: var(--accent-hover);
+}
+
+.operator:active{
+    background-color: var(--accent-active);
+}
+
+.digit{
+    background-color: var(--bright);
+    color: var(--dark);
+}
+
+.digit:hover{
+    background-color: var(--bright-hover);
+}
+
+.digit:active{
+    background-color: var(--birght-active);
+}
+
+.utility{
+    color: var(--dark);
+}
+
+.utility:hover{
+    background-color: var(--light-hover);
+}
+
+.utility:active{
+    background-color: var(--light-active);
 }
 
 #one{
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 2;
 }
 
 #two{
-    grid-column: 3 / span 2;
+    grid-column: 2;
     grid-row: 2;
 }
 
 #three{
-    grid-column: 5 / span 2;
+    grid-column: 3;
     grid-row: 2;
 }
 
 #four{
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 3;
 }
 
 #five{
-    grid-column: 3 / span 2;
+    grid-column: 2;
     grid-row: 3;
 }
 
 #six{
-    grid-column: 5 / span 2;
+    grid-column: 3;
     grid-row: 3;
 }
 
 #seven{
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 4;
 }
 
 #eight{
-    grid-column: 3 / span 2;
+    grid-column: 2;
     grid-row: 4;
 }
 
 #nine{
-    grid-column: 5 / span 2;
+    grid-column: 3;
     grid-row: 4;
 }
 
 #zero{
-    grid-column: 3  / span 2;
+    grid-column: 1  / span 2;
     grid-row: 5;
 }
 
 #power{
-    grid-column: 5 / span 2;
+    grid-column: 3;
     grid-row: 1;
 }
 
 #plus{
-    grid-column: 7 / span 2;
+    grid-column: 4;
     grid-row: 1;
 }
 
 #minus{
-    grid-column: 7 / span 2;
+    grid-column: 4;
     grid-row: 2;
 }
 
 #times{
-    grid-column: 7 / span 2;
+    grid-column: 4;
     grid-row: 3;
 }
 
 #over{
-    grid-column: 7 / span 2;
+    grid-column: 4;
     grid-row: 4;
 }
 
 #equals{
-    grid-column: 5 / span 4;
+    grid-column: 4;
     grid-row: 5;
 }
 
 #dot{
-    grid-column: 1 / span 2;
+    grid-column: 3;
     grid-row: 5;
 }
 
 #clear{
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 1;
 }
 
 #back{
-    grid-column: 3 / span 2;
+    grid-column: 2;
     grid-row: 1;
 }
