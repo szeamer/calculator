@@ -4,7 +4,7 @@ window.onload = () => {
         'expression': [],
         'text_field': document.querySelector('#textfield'),
         expressionToString() {
-            if(this.expression.length == 1 & isNaN(this.expression[0])){
+            if(this.expression.length == 1 & isNaN(this.expression[0]) & !('*/+-^'.includes(this.expression))){
                 return "undefined";
             }
             return this.expression.join(' ');
@@ -44,10 +44,18 @@ window.onload = () => {
     for(let operator in calculator.key_pad.operators){
         let button = calculator.key_pad.operators[operator];
         let value = button.textContent;
+        //click
         button.addEventListener('click', () => {
             calculator.expression.push(value);
             console.log(calculator.expression);
             calculator.text_field.value = calculator.expressionToString();
+        });
+        //keypress
+        document.addEventListener('keydown', (event) => {
+            if(event.key == button.innerText){
+                event.preventDefault();
+                button.click();
+            }
         });
     }
     //connect digits
@@ -56,18 +64,39 @@ window.onload = () => {
         let value = button.textContent;
         button.addEventListener('click', () => {
             pushNumber(value);
-        })
+        });
+        //keypress
+        document.addEventListener('keydown', (event) => {
+            if(event.key == button.innerText){
+                event.preventDefault();
+                button.click();
+            }
+        });
     }
 
     //connect dot button
     calculator.key_pad.dot_button.addEventListener('click', () => {
         pushNumber('.');
     });
+    //keypress
+    document.addEventListener('keydown', (event) => {
+        if(event.key == '.'){
+            event.preventDefault();
+            calculator.key_pad.dot_button.click();
+        }
+    });
 
     //connect clear button
     calculator.key_pad.clear_button.addEventListener('click', () => {
         calculator.expression = [];
         calculator.text_field.value = '';
+    });
+    //keypress
+    document.addEventListener('keydown', (event) => {
+        if(event.keyCode == 27){
+            event.preventDefault();
+            calculator.key_pad.clear_button.click();
+        }
     });
 
     //connect back button
@@ -85,12 +114,26 @@ window.onload = () => {
         console.log(calculator.expression);
         calculator.text_field.value = calculator.expressionToString();
     });
+    //keypress
+    document.addEventListener('keydown', (event) => {
+        if(event.keyCode == 8){
+            event.preventDefault();
+            calculator.key_pad.back_button.click();
+        }
+    });
 
     //connect equals button
     calculator.key_pad.equals_button.addEventListener('click', () => {
         calculator.expression = evaluate_expression(calculator.expression);
         calculator.text_field.value = calculator.expressionToString();
         console.log(calculator.expression);
+    });
+    //keypress
+    document.addEventListener('keydown', (event) => {
+        if(event.key == '=' | event.keyCode==13){
+            event.preventDefault();
+            calculator.key_pad.equals_button.click();
+        }
     });
 
     function pushNumber(value){
